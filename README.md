@@ -1,7 +1,7 @@
 # Landing Page A/B Test Analysis
 
 ## Project Overview
-This project simulates and analyzes an A/B test conducted by a fictional e-commerce company to evaluate whether a redesigned landing page drives higher conversion rates than the existing design. The analysis covers the full experiment lifecycle — from hypothesis formulation and power analysis through statistical testing, segment analysis, and guardrail metric validation — using Python, SQL, and Tableau.
+This project simulates and analyzes an A/B test conducted by a fictional e-commerce company to evaluate whether a redesigned landing page drives higher conversion rates than the existing design. The analysis covers the full experiment lifecycle from hypothesis formulation and power analysis through statistical testing, segment analysis, and guardrail metric validation — using Python, SQL, and Tableau.
 
 ## Business Question
 > *Does the new landing page design significantly increase the rate at which visitors convert (sign up or make a purchase), compared to the existing page?*
@@ -23,7 +23,13 @@ This project simulates and analyzes an A/B test conducted by a fictional e-comme
 - **H₁ (Alternative):** The new landing page changes conversion rate (control rate ≠ treatment rate)
 
 ## Dataset
-The dataset was simulated using Python (`numpy`, `scipy`) to reflect realistic experiment parameters. Simulation was chosen over a pre-existing dataset to demonstrate end-to-end experiment design thinking, including power analysis prior to data generation.
+The dataset was simulated using Python (`numpy`, `scipy`) to reflect realistic experiment parameters. Simulation was chosen over a pre-existing dataset, visitors were randomly assigned to the control and treatment groups in a 1:1 ratio to minimize selection bias and support valid statistical inference to demonstrate end-to-end experiment design thinking, including power analysis prior to data generation.
+
+| Metric | Value |
+|--------|------|
+| Total Visitors | 6,410 |
+| Control Group | 3,205 |
+| Treatment Group | 3,205 |
 
 | Column | Type | Description |
 |---|---|---|
@@ -101,8 +107,15 @@ To confirm the conversion lift did not come at the cost of lower-quality convers
 
 No statistically significant difference in AOV between groups (p = 0.81). The new landing page attracted more converting visitors without negatively impacting spend per order.
 
+## Business Recommendations
+
+- Conduct a larger follow-up experiment to increase confidence in the observed conversion lift.
+- Prioritize additional testing for mobile users, where the strongest improvement was observed.
+- Continue monitoring Average Order Value and other guardrail metrics after deployment.
+- If future experiments confirm the results, consider a phased rollout of the redesigned landing page.
+
 ## SQL Analysis
-Analysis was replicated in PostgreSQL under the `ab_testing` schema. Four queries were written covering:
+Core business metrics were independently reproduced in PostgreSQL to validate the Python analysis under the `ab_testing` schema. Four queries were written covering:
 1. Overall conversion rate by group
 2. Conversion rate by device type and group
 3. Conversion rate by traffic source and group
