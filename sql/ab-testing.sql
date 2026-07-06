@@ -1,6 +1,8 @@
+-- Create schema
 CREATE SCHEMA ab_testing;
 
-CREATE TABLE ab_testing.ab_test(
+-- Create table
+CREATE TABLE ab_testing.ab_test (
     user_id INTEGER,
     group_name VARCHAR(20),
     converted INTEGER,
@@ -9,69 +11,53 @@ CREATE TABLE ab_testing.ab_test(
     order_value NUMERIC(10,2)
 );
 
+-- Preview data
+SELECT *
+FROM ab_testing.ab_test
+LIMIT 2;
 
+-- Overall Conversion Rate by Group
+SELECT
+    group_name,
+    ROUND(AVG(converted) * 100, 2) AS conversion_rate_pct
+FROM ab_testing.ab_test
+GROUP BY group_name;
 
+-- Conversion Rate by Device Type
+SELECT
+    group_name,
+    device_type,
+    ROUND(AVG(converted) * 100, 2) AS conversion_rate_pct
+FROM ab_testing.ab_test
+GROUP BY
+    group_name,
+    device_type
+ORDER BY
+    group_name,
+    device_type;
 
-SELECT * from ab_testing.ab_test
-limit 2;
+-- Conversion Rate by Traffic Source
+SELECT
+    group_name,
+    traffic_source,
+    ROUND(AVG(converted) * 100, 2) AS conversion_rate_pct
+FROM ab_testing.ab_test
+GROUP BY
+    group_name,
+    traffic_source
+ORDER BY
+    group_name,
+    traffic_source;
 
-
---Overall conversion rate by group
-
-
-
-select group_name,
-AVG(converted) as converted_rates
-from ab_testing.ab_test
-group by group_name;
-
-
-
---Conversion rate by device type and group
-
-
-select group_name,
-device_type,
-AVG(converted) as converted_rates
-from ab_testing.ab_test
-group by group_name, device_type 
-order by group_name ,device_type ;
-
-
-
---Conversion rate by traffic source and group
-
-select group_name,
-traffic_source,
-AVG(converted) as converted_rates
-from ab_testing.ab_test
-group by group_name, traffic_source  
-order by group_name ,traffic_source  ;
-
-
-
--- AOV guardrail by group
-
-
-select count(*)  ,
-group_name ,
-AVG(order_value)as order_value
-from ab_testing.ab_test 
-where converted =1
-group by group_name
-order by group_name ;
-
-
-
-
-
-
-
-
-
-
-
-
+-- Average Order Value (AOV) by Group
+SELECT
+    group_name,
+    COUNT(*) AS converters,
+    ROUND(AVG(order_value), 2) AS avg_order_value
+FROM ab_testing.ab_test
+WHERE converted = 1
+GROUP BY group_name
+ORDER BY group_name;
 
 
 
