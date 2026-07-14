@@ -1,0 +1,7 @@
+traffic_source,group,converted
+organic,control,0.06896551724137931
+organic,treatment,0.08913649025069638
+paid,control,0.09075043630017451
+paid,treatment,0.09955947136563877
+social,control,0.09295352323838081
+social,treatment,0.10410094637223975
